@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Selaelo, My Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ff4b7d,#ff758c,#ff9a9e);
+  background-size:400% 400%;
+  animation:bg 10s ease infinite;
+  color:white;
+  text-align:center;
+  overflow-x:hidden;
+}
+@keyframes bg{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+section{padding:40px 20px;}
+.card{
+  background:rgba(255,255,255,.15);
+  backdrop-filter:blur(10px);
+  border-radius:20px;
+  padding:25px;
+  max-width:700px;
+  margin:20px auto;
+}
+button{
+  background:white;
+  color:#ff4b7d;
+  border:none;
+  padding:12px 25px;
+  border-radius:30px;
+  font-size:16px;
+  margin:10px;
+  cursor:pointer;
+  transition:.3s;
+}
+button:hover{transform:scale(1.1);}
+.heart{
+  position:fixed;
+  bottom:-10px;
+  font-size:18px;
+  animation:float 6s linear infinite;
+}
+@keyframes float{
+  from{transform:translateY(0);opacity:1;}
+  to{transform:translateY(-100vh);opacity:0;}
+}
+#secret,#surprise,#popup,#wish{display:none;}
+.card-btn{
+  background:white;
+  color:#ff4b7d;
+  font-size:30px;
+  border-radius:15px;
+  padding:15px;
+  cursor:pointer;
+  user-select:none;
+}
+.card-btn.matched{
+  background:#ff4b7d;
+  color:white;
+}
+</style>
+</head>
+<body>
+
+<div id="mainContent">
+
+<section>
+  <h1>Happy Valentine’s Day 💘</h1>
+  <h2>Selaelo, To the One Who Owns My Heart</h2>
+</section>
+
+<!-- Long Love Letter -->
+<section class="card">
+  <h2>💌 My Love Letter to Selaelo</h2>
+  <p id="typing" style="white-space:pre-wrap;"></p>
+</section>
+
+<!-- Countdown -->
+<section class="card">
+  <h2>⏳ Countdown to Valentine</h2>
+  <h3 id="countdown"></h3>
+</section>
+
+<!-- Why I Love You -->
+<section class="card">
+  <h2>💝 Why I Love You</h2>
+  <button onclick="toggleSecret()">Tap to Reveal</button>
+  <div id="secret">
+    <p>❤️ I love your smile — it lights up every moment and every room.</p>
+    <p>❤️ I love your laugh — it makes everything feel lighter and happier.</p>
+    <p>❤️ I love your voice — it comforts me, even when we’re apart.</p>
+    <p>❤️ I love your kindness — the way you care about everyone around you.</p>
+    <p>❤️ I love your heart — soft, genuine, and endlessly loving.</p>
+    <p>❤️ I love your strength — how you face challenges with courage.</p>
+    <p>❤️ I love your presence — just being with you makes life better.</p>
+    <p>❤️ I love your honesty — it makes me trust you with everything.</p>
+    <p>❤️ I love your patience — how you never rush, never judge.</p>
+    <p>❤️ I love the little things you do — they show me how much you care.</p>
+  </div>
+</section>
+
+<!-- Love Meter -->
+<section class="card">
+  <h2>📈 Love Meter</h2>
+  <h3 id="meter">0%</h3>
+  <button onclick="increase()">Increase Love</button>
+</section>
+
+<!-- Random Love Quote -->
+<section class="card">
+  <h2>💬 Random Love Quote</h2>
+  <p id="quote"></p>
+  <button onclick="newQuote()">New Quote</button>
+</section>
+
+<!-- Memory Game -->
+<section class="card">
+  <h2>🎮 Let’s Play a Little Game Before Your Surprise</h2>
+  <p>Match 2 same cards 💕</p>
+  <h3>Moves: <span id="moves">0</span></h3>
+  <div id="game" style="display:grid;grid-template-columns:repeat(4,70px);gap:10px;justify-content:center;"></div>
+</section>
+
+<!-- Surprise / Proposal -->
+<section class="card" id="surprise">
+  <h2>🎁 My Surprise For You 💖</h2>
+  <p>
+    You completed the game, Selaelo 🥹<br>
+    Just like you win my heart every day.<br>
+    Will you be my Valentine and my forever? 💍💘
+  </p>
+</section>
+
+<!-- Make a Wish -->
+<section class="card">
+  <h2>🌠 I Want to Make a Wish</h2>
+  <button onclick="showWish()">Make a Wish ✨</button>
+  <div id="wish" style="display:none; margin-top:15px;">
+    <p style="font-size:18px;">
+      My wish is for you to video call me so we can talk…<br>
+      because hearing your voice and seeing your face is my favorite thing 💕
+    </p>
+  </div>
+</section>
+
+<!-- Call / WhatsApp -->
+<section class="card">
+  <h2>📞 Stay Connected</h2>
+  <button onclick="location.href='tel:+27647690463'">Call Me</button>
+  <button onclick="location.href='https://wa.me/27647690463'">WhatsApp Me</button>
+</section>
+
+<!-- Proposal Buttons -->
+<section class="card">
+  <h2>💍 Will You Be My Valentine?</h2>
+  <button onclick="yes()">YES 💖</button>
+  <button id="no" onmouseover="moveNo()">NO 😭</button>
+</section>
+
+<div id="popup">
+  <div class="card">
+    <h2>🎆 You Made Me the Happiest Person Alive 💕</h2>
+    <button onclick="closePop()">Close</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ---------- TYPEWRITER LOVE LETTER ----------
+const loveLetter = `
+Selaelo, every time I think about you, my heart feels full in a way I cannot explain.
+You are my calm in chaos, my light in the dark, and my safe place when the world feels heavy.
+
+There is something about your smile, your laugh, the sparkle in your eyes
+that makes everything else fade away, and I feel alive just thinking of you.
+
+I love your kindness, your patience, your strength, and the way you care so deeply
+not just for me, but for everyone around you.
+
+Even in silence, even when we’re apart, I feel your presence with me,
+reminding me that love like ours is rare, beautiful, and infinite.
+
+Selaelo, I love you not just for the amazing person you are,
+but for the way you make me feel — safe, seen, and loved in every way.
+
+Every day with you is a gift. Every moment away from you reminds me
+how much I need you, how much I cherish you, and how much I adore you.
+
+My heart chose you once, and it will choose you a thousand times more,
+forever, endlessly, completely.
+
+I love you, Selaelo. Always. ❤️
+`;
+
+let i = 0;
+const typingElement = document.getElementById("typing");
+(function typeLetter() {
+  if (i < loveLetter.length) {
+    typingElement.innerHTML += loveLetter.charAt(i);
+    i++;
+    let delay = 30;
+    if (loveLetter.charAt(i-1) === "." || loveLetter.charAt(i-1) === "\n") delay = 400;
+    setTimeout(typeLetter, delay);
+  }
+})();
+
+// ---------- COUNTDOWN ----------
+const val = new Date("Feb 14, 2026").getTime();
+setInterval(()=>{
+  const d = val - new Date().getTime();
+  document.getElementById("countdown").innerHTML = Math.floor(d/(1000*60*60*24))+" days 💕";
+},1000);
+
+// ---------- FLOATING HEARTS ----------
+setInterval(()=>{
+  const h = document.createElement("div");
+  h.innerHTML="❤️";
+  h.className="heart";
+  h.style.left=Math.random()*100+"%";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+// ---------- SECRET TOGGLE ----------
+function toggleSecret(){secret.style.display = secret.style.display==="block"?"none":"block";}
+
+// ---------- LOVE METER ----------
+let love=0;
+function increase(){if(love<100){meter.innerHTML=(love+=10)+"%";}}
+
+// ---------- RANDOM QUOTES ----------
+const quotes = [
+  "I choose you. Always.",
+  "You are my home.",
+  "My heart is yours.",
+  "Loving you feels like choosing light every single day — the one choice my heart never hesitates to make.",
+  "With you, love feels safe, soft, and real.",
+  "If I had to choose again, I’d still choose you."
+];
+function newQuote(){quote.innerHTML=quotes[Math.floor(Math.random()*quotes.length)];}
+newQuote();
+
+// ---------- MEMORY GAME ----------
+const emojis=["❤️","🎈","🎁","🎂","⭐","🎉"];
+let cards=[...emojis,...emojis].sort(()=>0.5-Math.random());
+let first=null,lock=false,matches=0,moves=0;
+cards.forEach(e=>{
+  const c=document.createElement("div");
+  c.className="card-btn";
+  c.innerHTML="❓";
+  c.onclick=()=>{
+    if(lock||c.classList.contains("matched"))return;
+    c.innerHTML=e;
+    if(!first){first={c,e};}
+    else{
+      moves++;movesEl.innerText=moves;
+      if(first.e===e){
+        c.classList.add("matched");first.c.classList.add("matched");matches++;
+        if(matches===emojis.length)surprise.style.display="block";
+        first=null;
+      }else{
+        lock=true;
+        setTimeout(()=>{c.innerHTML="❓";first.c.innerHTML="❓";first=null;lock=false;},800);
+      }
+    }
+  };
+  game.appendChild(c);
+});
+const movesEl=document.getElementById("moves");
+
+// ---------- PROPOSAL ----------
+function yes(){popup.style.display="block";}
+function closePop(){popup.style.display="none";}
+function moveNo(){
+  no.style.position="absolute";
+  no.style.left=Math.random()*80+"%";
+  no.style.top=Math.random()*80+"%";
+}
+
+// ---------- WISH ----------
+function showWish(){wish.style.display="block";}
+</script>
+
+</body>
+</html>
